@@ -58,6 +58,12 @@
             <artifactId>cas-client-core</artifactId>
             <version>${java-cas-client-version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2database-version}</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>shepher-1.0</finalName>
