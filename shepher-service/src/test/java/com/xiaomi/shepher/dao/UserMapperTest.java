@@ -65,6 +65,7 @@ public class UserMapperTest extends BaseTest {
     public void testCreate() {
         String name = "testuser1";
         User user = new User(name);
+        user.setPassword("123456");
         int result = userMapper.create(user);
 
         Assert.assertEquals(4, user.getId());
