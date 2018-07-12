@@ -31,21 +31,20 @@ import com.xiaomi.shepher.model.UserTeam;
 import com.xiaomi.shepher.util.ParentPathParser;
 import com.xiaomi.shepher.util.ShepherConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by banchuanyu on 16-8-9.
  */
 @Service
 public class TeamBiz {
+    private static Logger logger = LoggerFactory.getLogger(TeamBiz.class);
 
     @Autowired
     private TeamMapper teamMapper;
@@ -68,10 +67,10 @@ public class TeamBiz {
         try {
             count = teamMapper.create(team);
         } catch (DuplicateKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);
@@ -94,7 +93,7 @@ public class TeamBiz {
         try {
             count = teamMapper.delete(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_DELETE);

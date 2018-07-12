@@ -24,6 +24,8 @@ import com.xiaomi.shepher.exception.ShepherException;
 import com.xiaomi.shepher.model.ReviewRequest;
 import com.xiaomi.shepher.util.ShepherConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,7 @@ import java.util.Date;
  */
 @Service
 public class ReviewBiz {
+    private static Logger logger = LoggerFactory.getLogger(ReviewBiz.class);
 
     @Autowired
     private ReviewMapper reviewMapper;
@@ -51,10 +54,10 @@ public class ReviewBiz {
         try {
             count = reviewMapper.create(reviewRequest);
         } catch (DuplicateKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBCreateErrorException();
         }
 
@@ -70,7 +73,7 @@ public class ReviewBiz {
         try {
             count = reviewMapper.update(id, reviewStatus.getValue(), reviewer);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBUpdateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_UPDATE);
@@ -86,7 +89,7 @@ public class ReviewBiz {
         try {
             count = reviewMapper.delete(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_DELETE);

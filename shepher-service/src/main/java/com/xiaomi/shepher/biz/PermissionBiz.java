@@ -22,16 +22,18 @@ import com.xiaomi.shepher.exception.ShepherException;
 import com.xiaomi.shepher.model.Permission;
 import com.xiaomi.shepher.util.ShepherConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
-import sun.rmi.runtime.Log;
 
 /**
  * Created by banchuanyu on 16-8-10.
  */
 @Service
 public class PermissionBiz {
+    private static Logger logger = LoggerFactory.getLogger(PermissionBiz.class);
 
     @Autowired
     private PermissionMapper permissionMapper;
@@ -46,10 +48,10 @@ public class PermissionBiz {
                 return this.create(cluster, path).getId();
             }
         } catch (DuplicateKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBCreateErrorException();
         }
         return permission.getId();
@@ -64,10 +66,10 @@ public class PermissionBiz {
         try {
             count = permissionMapper.create(permission);
         } catch (DuplicateKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);

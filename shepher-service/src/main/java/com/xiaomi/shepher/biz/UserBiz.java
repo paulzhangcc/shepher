@@ -24,6 +24,8 @@ import com.xiaomi.shepher.exception.ShepherException;
 import com.xiaomi.shepher.model.User;
 import com.xiaomi.shepher.util.ShepherConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -38,6 +40,7 @@ import java.util.Set;
  */
 @Service
 public class UserBiz {
+    private static Logger logger = LoggerFactory.getLogger(UserBiz.class);
 
     @Autowired
     private UserMapper userMapper;
@@ -74,10 +77,10 @@ public class UserBiz {
         try {
             count = userMapper.create(user);
         } catch (DuplicateKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);

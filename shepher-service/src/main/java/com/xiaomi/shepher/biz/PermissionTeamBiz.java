@@ -23,6 +23,8 @@ import com.xiaomi.shepher.exception.ShepherException;
 import com.xiaomi.shepher.model.PermissionTeam;
 import com.xiaomi.shepher.util.ShepherConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,7 @@ import java.util.List;
  */
 @Service
 public class PermissionTeamBiz {
+    private static Logger logger = LoggerFactory.getLogger(PermissionTeamBiz.class);
 
     @Autowired
     private PermissionTeamMapper permissionTeamMapper;
@@ -67,7 +70,7 @@ public class PermissionTeamBiz {
         try {
             count = permissionTeamMapper.update(id, status.getValue());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBUpdateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_UPDATE);
@@ -83,10 +86,10 @@ public class PermissionTeamBiz {
         try {
             count = permissionTeamMapper.create(permissionTeam);
         } catch (DuplicateKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);

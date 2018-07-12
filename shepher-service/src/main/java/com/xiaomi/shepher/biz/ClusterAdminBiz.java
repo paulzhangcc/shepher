@@ -22,6 +22,8 @@ import com.xiaomi.shepher.exception.ShepherException;
 import com.xiaomi.shepher.model.Cluster;
 import com.xiaomi.shepher.util.ShepherConstants;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,8 @@ import java.util.List;
 @Service
 public class ClusterAdminBiz {
 
+    private static Logger logger = LoggerFactory.getLogger(ClusterAdminBiz.class);
+
     @Autowired
     private ClusterAdminMapper clusterAdminMapper;
 
@@ -47,10 +51,10 @@ public class ClusterAdminBiz {
         try {
             count = clusterAdminMapper.create(new Cluster(name, config));
         } catch (DuplicateKeyException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);
@@ -65,7 +69,7 @@ public class ClusterAdminBiz {
         try {
             count = clusterAdminMapper.update(name, config);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBUpdateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_UPDATE);
@@ -80,7 +84,7 @@ public class ClusterAdminBiz {
         try {
             count = clusterAdminMapper.delete(name);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(),e);
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_DELETE);
