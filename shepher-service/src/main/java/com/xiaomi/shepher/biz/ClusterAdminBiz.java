@@ -47,8 +47,10 @@ public class ClusterAdminBiz {
         try {
             count = clusterAdminMapper.create(new Cluster(name, config));
         } catch (DuplicateKeyException e) {
+            e.printStackTrace();
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);
@@ -63,6 +65,7 @@ public class ClusterAdminBiz {
         try {
             count = clusterAdminMapper.update(name, config);
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBUpdateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_UPDATE);
@@ -77,6 +80,7 @@ public class ClusterAdminBiz {
         try {
             count = clusterAdminMapper.delete(name);
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_DELETE);

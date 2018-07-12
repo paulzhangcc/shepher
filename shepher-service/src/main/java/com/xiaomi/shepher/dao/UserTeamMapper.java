@@ -61,6 +61,6 @@ public interface UserTeamMapper {
             "WHERE user.id= #{user} AND user_team.team_id = team.id AND user_team.user_id= user.id AND user_team.status = #{status}")
     List<UserTeam> listByUser(@Param("user") long user, @Param("status") int status);
 
-    @Select("SELECT user.name AS user_name FROM user_team, user WHERE user_team.team_id = #{team} AND user_team.user_id = user.id")
+    @Select("SELECT user.name AS user_name FROM user_team, user WHERE user_team.team_id = #{team} AND user_team.user_id = user.id and user_team.status in (0,10)")
     List<String> listUserByTeamId(@Param("team") long team);
 }

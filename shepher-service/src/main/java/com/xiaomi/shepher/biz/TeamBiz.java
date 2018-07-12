@@ -68,8 +68,10 @@ public class TeamBiz {
         try {
             count = teamMapper.create(team);
         } catch (DuplicateKeyException e) {
+            e.printStackTrace();
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);
@@ -92,6 +94,7 @@ public class TeamBiz {
         try {
             count = teamMapper.delete(id);
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_DELETE);

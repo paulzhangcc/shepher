@@ -113,8 +113,10 @@ public class SnapshotBiz {
         try {
             count = snapshotMapper.create(snapshot);
         } catch (DuplicateKeyException e) {
+            e.printStackTrace();
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);
@@ -128,6 +130,7 @@ public class SnapshotBiz {
         try {
             return snapshotMapper.update(id, reviewStatus.getValue(), reviewer, new Date(zkMtime));
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBUpdateErrorException();
         }
     }
@@ -141,6 +144,7 @@ public class SnapshotBiz {
         try {
             count = snapshotMapper.delete(id);
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_DELETE);

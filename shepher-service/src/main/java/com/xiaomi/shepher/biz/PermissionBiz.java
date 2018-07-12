@@ -25,6 +25,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import sun.rmi.runtime.Log;
 
 /**
  * Created by banchuanyu on 16-8-10.
@@ -45,8 +46,10 @@ public class PermissionBiz {
                 return this.create(cluster, path).getId();
             }
         } catch (DuplicateKeyException e) {
+            e.printStackTrace();
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBCreateErrorException();
         }
         return permission.getId();
@@ -61,8 +64,10 @@ public class PermissionBiz {
         try {
             count = permissionMapper.create(permission);
         } catch (DuplicateKeyException e) {
+            e.printStackTrace();
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);

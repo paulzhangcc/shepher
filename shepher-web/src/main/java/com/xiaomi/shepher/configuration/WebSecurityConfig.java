@@ -7,6 +7,7 @@ import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -38,10 +39,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Value("${ldap.dn}")
     private String ldapDn;
 
-    @Value("${demo.admin.name}")
-    private String demoAdminName;
-    @Value("${demo.admin.password}")
-    private String demoAdminPassword;
+    @Autowired
+    private CustomUserService customUserService;
+
+    public static final String role = "ROLE_USER";
 
     public AuthenticationFilter casAuthenticationFilter() {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter();
@@ -63,7 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/fonts/**").antMatchers("/images/**").antMatchers("/scripts/**")
                 .antMatchers("/styles/**").antMatchers("/views/**").antMatchers("/i18n/**").antMatchers("/static/**")
-                .antMatchers("/logout");
+                .antMatchers("/logout").antMatchers("/register").antMatchers("/error");
     }
 
     @Override
@@ -106,10 +107,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .managerPassword(ldapPassword)
                     .managerDn(ldapDn);
         } else if (ShepherConstants.LOGIN_TYPE_DEMO.equals(loginType.toUpperCase())) {
-            auth.inMemoryAuthentication()
-                    .withUser(demoAdminName)
-                    .password(demoAdminPassword)
-                    .roles("USER");
+            DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+            daoAuthenticationProvider.setUserDetailsService(customUserService);
+            auth.authenticationProvider(daoAuthenticationProvider);
+//            auth.inMemoryAuthentication()
+//                    .withUser(demoAdminName)
+//                    .password(demoAdminPassword)
+//                    .roles("USER");
         }
     }
 }

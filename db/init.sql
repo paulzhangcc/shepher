@@ -172,6 +172,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL DEFAULT '',
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `password` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -207,10 +208,10 @@ CREATE TABLE IF NOT EXISTS `user_team` (
 
 -- Dump completed on 2016-08-03 10:04:24
 
-INSERT INTO `cluster` VALUES (1,'local_test','zookeeper:2181',now());
+INSERT INTO `cluster` VALUES (1,'local_test','127.0.0.1:2181',now());
 
 INSERT INTO `team` VALUES (1,'admin',1,now());
 
-INSERT INTO `user` VALUES (1,'youradmin',now());
+INSERT INTO `user` VALUES (1,'admin',now(),'123456');
 
 INSERT INTO `user_team` VALUES (1,1,1,100,10,now());

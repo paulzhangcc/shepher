@@ -61,17 +61,23 @@ public class UserBiz {
         return userNames;
     }
 
-    public User create(String name) throws ShepherException {
+    public User create(String name,String password) throws ShepherException {
         if (StringUtils.isBlank(name)) {
             throw ShepherException.createIllegalParameterException();
         }
+        if (StringUtils.isBlank(password)) {
+            throw ShepherException.createIllegalParameterException();
+        }
         User user = new User(name);
+        user.setPassword(password);
         int count;
         try {
             count = userMapper.create(user);
         } catch (DuplicateKeyException e) {
+            e.printStackTrace();
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);

@@ -33,7 +33,7 @@ import java.util.Set;
 @Mapper
 public interface UserMapper {
 
-    @Select("SELECT id, name, time FROM user WHERE name = #{name}")
+    @Select("SELECT id, name, time,password FROM user WHERE name = #{name}")
     User getByName(@Param("name") String name);
 
     @Select("SELECT id, name, time FROM user WHERE id = #{id}")
@@ -44,6 +44,6 @@ public interface UserMapper {
             "AND user_team.user_id = user.id AND user_team.status >= #{status} AND user_team.role >= #{role}")
     List<User> list(@Param("teams") Set<Long> teams, @Param("status") int status, @Param("role") int role);
 
-    @Insert("INSERT INTO user(name) VALUES (#{name})")
+    @Insert("INSERT INTO user(name,password) VALUES (#{name},#{password})")
     int create(User user);
 }

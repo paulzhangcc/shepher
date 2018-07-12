@@ -67,6 +67,7 @@ public class PermissionTeamBiz {
         try {
             count = permissionTeamMapper.update(id, status.getValue());
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBUpdateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_UPDATE);
@@ -82,8 +83,10 @@ public class PermissionTeamBiz {
         try {
             count = permissionTeamMapper.create(permissionTeam);
         } catch (DuplicateKeyException e) {
+            e.printStackTrace();
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBCreateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_CREATE);

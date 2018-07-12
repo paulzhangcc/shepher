@@ -45,7 +45,11 @@ public class UserService {
     }
 
     public User create(String name) throws ShepherException {
-        return userBiz.create(name);
+        return userBiz.create(name,"123456");
+    }
+
+    public User create(String name,String password) throws ShepherException {
+        return userBiz.create(name,password);
     }
 
     public User createIfNotExist(String name) throws ShepherException {

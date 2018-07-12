@@ -4,14 +4,15 @@
 <body>
 <#include "./nav.ftl">
 
+
 <#include "./script.ftl">
 
 <div class="container">
     <div class="col-md-3"></div>
     <div class="col-md-5">
-        <form class="form-horizontal" action="/login" method="POST">
+        <form class="form-horizontal" action="/register" method="POST">
             <fieldset>
-                <legend>Login</legend>
+                <legend>Register</legend>
                 <div class="form-group">
                     <label for="inputUsername" class="col-lg-2 control-label">Username</label>
                     <div class="col-lg-10">
@@ -26,13 +27,13 @@
                 </div>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <button type="submit" class="btn btn-success btn-block">Login</button>
+                        <button type="submit" class="btn btn-success btn-block">Register</button>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <button type="button" id="GoRegister" class="btn btn-success btn-block">GoRegister</button>
+                        <button type="button" id="GoLogin" class="btn btn-success btn-block">GoLogin</button>
                     </div>
                 </div>
             </fieldset>
@@ -41,8 +42,8 @@
     <div class="col-md-4"></div>
 </div>
 <script>
-    $("#GoRegister").click(function () {
-        window.location.href="/register";
+    $("#GoLogin").click(function () {
+        window.location.href="/login";
     })
 </script>
 </body>

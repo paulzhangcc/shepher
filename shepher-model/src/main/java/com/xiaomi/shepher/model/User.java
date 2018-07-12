@@ -26,6 +26,16 @@ public class User {
     private String name;
     private Date time;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+
     public User() {
     }
 

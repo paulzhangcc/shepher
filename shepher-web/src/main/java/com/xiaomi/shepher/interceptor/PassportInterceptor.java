@@ -55,9 +55,6 @@ public class PassportInterceptor extends HandlerInterceptorAdapter {
     @Value("${server.login.type}")
     private String loginType;
 
-    @Value("${demo.admin.name}")
-    private String demoAdminName;
-
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {

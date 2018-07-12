@@ -51,8 +51,10 @@ public class ReviewBiz {
         try {
             count = reviewMapper.create(reviewRequest);
         } catch (DuplicateKeyException e) {
+            e.printStackTrace();
             throw ShepherException.createDuplicateKeyException();
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBCreateErrorException();
         }
 
@@ -68,6 +70,7 @@ public class ReviewBiz {
         try {
             count = reviewMapper.update(id, reviewStatus.getValue(), reviewer);
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBUpdateErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_UPDATE);
@@ -83,6 +86,7 @@ public class ReviewBiz {
         try {
             count = reviewMapper.delete(id);
         } catch (Exception e) {
+            e.printStackTrace();
             throw ShepherException.createDBDeleteErrorException();
         }
         DaoValidator.checkSqlReturn(count, ShepherConstants.DB_OPERATE_DELETE);
